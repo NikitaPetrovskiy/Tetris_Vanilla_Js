@@ -2,7 +2,7 @@
     box-sizing: border-box;
     font-family: Arial;
 }
-main {
+#main {
     margin: 50px auto;
     position: relative;
     overflow: hidden;
