@@ -17,6 +17,36 @@ window.onload = function () {
             [1, 0],
             [0, 1],
             [1, 1]
+        ],
+        //Буква L
+        [
+            [1, 0],
+            [0, 1],
+            [0, 2]
+        ],
+        //Отзеркаленная буква L
+        [
+            [1, 0],
+            [1, 1],
+            [1, 2]
+        ],
+        //молния (нижний ряд вправо)
+        [
+            [1, 0],
+            [-1, 1],
+            [0, 1]
+        ],
+        //молния (нижний ряд влево)
+        [
+            [1, 0],
+            [1, 1],
+            [2, 1]
+        ],
+        //деталь Лего
+        [
+            [1, 0],
+            [2, 0],
+            [1, 1]
         ]
     ];
     //пустой массив рандомных отображаемых фигурок
@@ -64,7 +94,48 @@ window.onload = function () {
         }
     }
 
+    // функция для логики движения фигурки в тетрисе
+    function movingFigure () {
+        // булевое значение для движения фигурки
+        let moveFlag = true;
+        //координаты фигурки
+        let coordinates = [
+            [figureBody[0].getAttribute('posX'), figureBody[0].getAttribute('posY')],
+            [figureBody[1].getAttribute('posX'), figureBody[1].getAttribute('posY')],
+            [figureBody[2].getAttribute('posX'), figureBody[2].getAttribute('posY')],
+            [figureBody[3].getAttribute('posX'), figureBody[3].getAttribute('posY')]
+        ];
 
+        //проверка для фигурка. Если по оси Y она в самом низу (координаты 1) или снизу фигурка имеет класс set,
+        // то бул значение будет фолсе и фигурка прекратит движение
+        for (let i = 0; i < coordinates.length; i++) {
+            if (coordinates[i][1] == 1 || document.querySelector(`[posX = "${coordinates[i][0]}"][posY = "${coordinates[i][1] - 1}"]`).classList.contains('set')) {
+                moveFlag = false;
+                break;
+            }
+        }
+        // если булевое значение труб
+        if (moveFlag) {
+            for (let i = 0; i < figureBody.length; i++) {
+                figureBody[i].classList.remove('figure');
+            }
+            figureBody = [
+                document.querySelector(`[posX = "${coordinates[0][0]}"][posY = "${coordinates[0][1] - 1}"]`),
+                document.querySelector(`[posX = "${coordinates[1][0]}"][posY = "${coordinates[1][1] - 1}"]`),
+                document.querySelector(`[posX = "${coordinates[2][0]}"][posY = "${coordinates[2][1] - 1}"]`),
+                document.querySelector(`[posX = "${coordinates[3][0]}"][posY = "${coordinates[3][1] - 1}"]`)
+            ];
+            for (let i = 0; i < figureBody.length; i++) {
+                figureBody[i].classList.add('figure');
+            }
+        } else {
+            for (let i = 0; i < figureBody.length; i++) {
+                figureBody[i].classList.remove('figure');
+                figureBody[i].classList.add('set');
+            }
+            createFigureForTetris(5, 15);
+        }
+    };
 
 
 
@@ -76,8 +147,11 @@ window.onload = function () {
     appendElements(main, tetris);
     appendExelElements();
     addPositionArrtToElem();
-    createFigureForTetris(5, 10);
+    createFigureForTetris(5, 15);
     addFigureClass();
+    let interval = setInterval(() => {
+        movingFigure();
+    }, 300);
 
 };
 
