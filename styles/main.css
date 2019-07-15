@@ -25,7 +25,9 @@
     height: 50px;
     border: 1px solid #ccc;
 }
-.figure,
-.set {
+.figure {
     background-color: #1e488c;
+}
+.set {
+    background-color: #328c83;
 }

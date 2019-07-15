@@ -89,13 +89,20 @@ window.onload = function () {
     };
     //присваиваю класс для каждой ячейки созданной фигуроки
     let addFigureClass = (figure = figureBody) => {
-        for (let i = 0; i < figure.length; i++) {
-            figure[i].classList.add('figure');
-        }
+        // for (let i = 0; i < figure.length; i++) {
+        //     figure[i].classList.add('figure');
+        // }
+        figure.forEach((item) => {
+            item.classList.add('figure');
+        })
     }
 
+
+
+
+
     // функция для логики движения фигурки в тетрисе
-    function movingFigure () {
+    let movingFigure = () => {
         // булевое значение для движения фигурки
         let moveFlag = true;
         //координаты фигурки
@@ -108,37 +115,114 @@ window.onload = function () {
 
         //проверка для фигурка. Если по оси Y она в самом низу (координаты 1) или снизу фигурка имеет класс set,
         // то бул значение будет фолсе и фигурка прекратит движение
-        for (let i = 0; i < coordinates.length; i++) {
-            if (coordinates[i][1] == 1 || document.querySelector(`[posX = "${coordinates[i][0]}"][posY = "${coordinates[i][1] - 1}"]`).classList.contains('set')) {
+        // for (let i = 0; i < coordinates.length; i++) {
+        //     if (coordinates[i][1] == 1 || document.querySelector(`[posX = "${coordinates[i][0]}"][posY = "${coordinates[i][1] - 1}"]`).classList.contains('set')) {
+        //         moveFlag = false;
+        //         break;
+        //     }
+        // }
+        coordinates.forEach((body) => {
+            if (body[1] == 1 || document.querySelector(`[posX = "${body[0]}"][posY = "${body[1] - 1}"]`).classList.contains('set')) {
                 moveFlag = false;
-                break;
+
             }
-        }
+        })
         // если булевое значение труб
         if (moveFlag) {
-            for (let i = 0; i < figureBody.length; i++) {
-                figureBody[i].classList.remove('figure');
-            }
+            // for (let i = 0; i < figureBody.length; i++) {
+            //     figureBody[i].classList.remove('figure');
+            // }
+            figureBody.forEach((item) => {
+                item.classList.remove('figure');
+            })
             figureBody = [
                 document.querySelector(`[posX = "${coordinates[0][0]}"][posY = "${coordinates[0][1] - 1}"]`),
                 document.querySelector(`[posX = "${coordinates[1][0]}"][posY = "${coordinates[1][1] - 1}"]`),
                 document.querySelector(`[posX = "${coordinates[2][0]}"][posY = "${coordinates[2][1] - 1}"]`),
                 document.querySelector(`[posX = "${coordinates[3][0]}"][posY = "${coordinates[3][1] - 1}"]`)
             ];
-            for (let i = 0; i < figureBody.length; i++) {
-                figureBody[i].classList.add('figure');
-            }
+            // for (let i = 0; i < figureBody.length; i++) {
+            //     figureBody[i].classList.add('figure');
+            // }
+            figureBody.forEach((item) => {
+                item.classList.add('figure');
+            })
         } else {
-            for (let i = 0; i < figureBody.length; i++) {
-                figureBody[i].classList.remove('figure');
-                figureBody[i].classList.add('set');
-            }
+            // for (let i = 0; i < figureBody.length; i++) {
+            //     figureBody[i].classList.remove('figure');
+            //     figureBody[i].classList.add('set');
+            // }
+            figureBody.forEach((item) => {
+                item.classList.remove('figure');
+                item.classList.add('set');
+            })
             createFigureForTetris(5, 15);
         }
     };
+    let interval = setInterval(() => {
+        movingFigure();
+    }, 300);
 
 
+    //логика для управления фигурками
+    window.addEventListener('keydown', function (e) {
+        //переменные для каждого координата
+        let coordinates1 = [figureBody[0].getAttribute('posX'), figureBody[0].getAttribute('posY')];
+        let coordinates2 = [figureBody[1].getAttribute('posX'), figureBody[1].getAttribute('posY')];
+        let coordinates3 = [figureBody[2].getAttribute('posX'), figureBody[2].getAttribute('posY')];
+        let coordinates4 = [figureBody[3].getAttribute('posX'), figureBody[3].getAttribute('posY')];
 
+
+        //функция для определения новых координат для фигурки
+        let getNewState = (a) => {
+            //вспомогательная переменная
+            let flag = true;
+            //переменная для новых координатов для фигурки
+            let figureNew = [
+                document.querySelector(`[posX = "${+coordinates1[0] + a }"][posY = "${coordinates1[1]}"]`),
+                document.querySelector(`[posX = "${+coordinates2[0] + a }"][posY = "${coordinates2[1]}"]`),
+                document.querySelector(`[posX = "${+coordinates3[0] + a }"][posY = "${coordinates3[1]}"]`),
+                document.querySelector(`[posX = "${+coordinates4[0] + a }"][posY = "${coordinates4[1]}"]`),
+            ];
+
+            // for (let i = 0; i < figureNew.length; i++) {
+            //     if (!figureNew[i] || figureNew[i].classList.contains('set')) {
+            //         flag = false;
+            //     }
+            //     if (flag) {
+            //         for (let i = 0; i < figureBody.length; i++) {
+            //             figureBody[i].classList.remove('figure');
+            //         }
+            //         figureBody = figureNew;
+            //         for (let i = 0; i < figureBody.length; i++) {
+            //             figureBody[i].classList.add('figure');
+            //         }
+            //     }
+            // }
+            figureNew.forEach((item) => {
+                if (!item || item.classList.contains('set')) {
+                    flag = false;
+                }
+                if (flag) {
+                    figureBody.forEach((i) => {
+                        i.classList.remove('figure');
+                    })
+                    figureBody = figureNew;
+                    figureBody.forEach((it) => {
+                        it.classList.add('figure');
+                    })
+                }
+            });
+        };
+
+        if (e.keyCode === 37) {
+            getNewState(-1);
+        } else if (e.keyCode === 39) {
+            getNewState(1);
+        } else if (e.keyCode === 40) {
+            movingFigure();
+        }
+    });
 
 
 
@@ -149,9 +233,7 @@ window.onload = function () {
     addPositionArrtToElem();
     createFigureForTetris(5, 15);
     addFigureClass();
-    let interval = setInterval(() => {
-        movingFigure();
-    }, 300);
+
 
 };
 
