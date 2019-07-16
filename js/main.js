@@ -85,6 +85,47 @@ function move() {
             figureBody[i].classList.remove('figure');
             figureBody[i].classList.add('set');
         }
+
+        //удаляем заполненый ряд
+        for (let i = 1; i < 15; i++) {
+            //переменная в которой хнаниться заполненное количество ячеек в ряд
+            let count = 0;
+            for (let k = 1; k < 11; k++) {
+                //если в один ряд сложилось несколько элементов то счётчик инкрементируется
+                if (document.querySelector(`[posX = "${k}"][posY = "${i}"]`).classList.contains('set')) {
+                    count++;
+                    // если счётчик равен 10 то удаляем класс сет
+                    if (count == 10) {
+                        //проходимся по всему ряду
+                        for (let m = 1; m < 11; m++) {
+                            //удаляем в этом руду ячейки с классом сет
+                            document.querySelector(`[posX = "${m}"][posY = "${i}"]`).classList.remove('set');
+                        }
+                        //переменная для все ячеек с классом сет
+                        let set = document.querySelectorAll('.set');
+                        //пустой массив для новых позиций для ячеек с классом сет
+                        let newSet = [];
+                        //проходимся по всем ячейчас с классм сет
+                        for (let s = 0; s < set.length; s++) {
+                            // переменная с координатами ячейки
+                            let setCoordinates = [set[s].getAttribute('posX'), set[s].getAttribute('posY')];
+                            //если координаты ячейки больше чем 1
+                            if (setCoordinates[1] > i) {
+                                //удаляю класс сет
+                                set[s].classList.remove('set');
+                                //пушу в массив с новыми координатами
+                                newSet.push(document.querySelector(`[posX = "${setCoordinates[0]}"][posY = "${setCoordinates[1] -1}"]`));
+                            }
+                        }
+                        // ячейкам из массива с новыми координатами добавляю класс сет
+                        for (let a = 0; a < newSet.length; a++) {
+                            newSet[a].classList.add('set');
+                        }
+                        i--;
+                    }
+                }
+            }
+        } 
         create();
     }
 }
