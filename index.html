@@ -6,20 +6,25 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>TETRIS</title>
     <link href="styles/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<main class="main">
-
-</main>
-<input type="text" readonly>
-<div class="controls">
-    <h1>Управление</h1>
-    <p>Вправо - стрелка вправо</p>
-    <p>Влево - Стрелка влево</p>
-    <p>Повернуть фигурку - Стрелка вверх</p>
-    <p>Ускорить фигурку - Стрелка вниз</p>
-</div>
+<div id="heading"><h1><span id="color1">TE</span>T<span id="color2">RIS</span></h1></div>
+<article class="wrap">
+    <section class="right">
+        <section class="main"></section>
+    </section>
+    <section class="left">
+        <section class="controls">
+            <h1>Управление</h1>
+            <p>Вправо - стрелка вправо</p>
+            <p>Влево - Стрелка влево</p>
+            <p>Повернуть фигурку - Стрелка вверх</p>
+            <p>Ускорить фигурку - Стрелка вниз</p>
+        </section>
+        <input type="text" readonly>
+    </section>
+</article>
 <div class="overlay"></div>
 <div class="modal">
     <h2>Выберите уровень сложности</h2>

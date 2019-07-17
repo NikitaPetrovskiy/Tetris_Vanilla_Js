@@ -1,50 +1,95 @@
 * {
     box-sizing: border-box;
-    font-family: Arial;
+    /*font-family: Arial;*/
+    font-family: 'Orbitron', sans-serif;
+
+}
+body {
+    background-color: #000;
+}
+#heading {
+    width: 15%;
+    display: block;
+    margin: 0 auto;
+    color: #fff;
+}
+#heading h1 {
+    text-align: center;
+    color: yellow;
+}
+#color1 {
+    color: firebrick;
+}
+#color2 {
+    color: chartreuse;;
+}
+.wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.right {
+    padding: 0;
+    width: 65%;
+}
+.left {
+    width: 30%;
+    margin: 0;
+    padding: 0;
 }
 .main {
     margin: 50px auto;
+    margin-top: 20px;
+    margin-right: 5%;
     position: relative;
     overflow: hidden;
-    width: 500px;
-    height: 700px;
-    border: 1px solid #000;
+    width: 400px;
+    height: 560px;
+    border: 3px solid #ccc;
 }
 .tetris {
     display: flex;
     flex-wrap: wrap;
     position: absolute;
     bottom: 0;
-    width: 500px;
-    height: 900px;
+    width: 400px;
+    height: 720px;
     overflow: hidden;
-    background: #fff;
+    background-color: #02210a;
 }
 .excel {
-    width: 50px;
-    height: 50px;
-    border: 1px solid #ccc;
+    width: 40px;
+    height: 40px;
+    /*border: 1px solid #cccccc;*/
+    background-color: #02210a;
 }
 .figure {
-    background-color: #1e488c;
+    background-color: #8c0013;
+    border: 1px solid #02210a;
 }
 .set {
-    background-color: #328c83;
+    background-color: #4d268c;
+    border: 1px solid #02210a;
 }
 .line {
     background-color: orange;
 }
 input {
     display: block;
-    margin: 30px auto;
+    width: 300px;
+    margin: auto;
     font-size: 30px;
     padding: 10px;
+    background-color: #000000;
+    color: #fff;
 }
 .controls {
+    text-align: center;
+    margin: 30% auto;
+    margin-bottom: 10px;
     padding: 20px;
-    position: absolute;
-    top: 200px;
-    right: 60px;
+    min-width: 310px;
+    color: #fff;
 }
 .modal {
     position: fixed;
